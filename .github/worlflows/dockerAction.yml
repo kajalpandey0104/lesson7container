@@ -1,0 +1,28 @@
+name: docker action
+
+on: push
+
+jobs:
+  test-docker-action:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Give Permission
+        run: chmod +x entrypoint.sh
+
+      - name: Run Docker Action
+        id: dockerAction
+        uses: ./
+
+        with:
+          number1: 4
+          number2: 2
+
+      - name: Print Output
+        run: echo ${{ steps.dockerAction.outputs.result }}
+
+      - name: Read File
+        run: cat ${{ github.workspace }}/containeroutputfile.txt
